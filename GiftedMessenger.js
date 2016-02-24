@@ -233,10 +233,6 @@ export default class GiftedMessenger extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.appendMessages(nextProps.messages);
-    }
-
     onKeyboardWillHide(e) {
         Animated.timing(this.state.height, {
             toValue: this.listViewMaxHeight,
