@@ -107,7 +107,6 @@ export default class GiftedMessenger extends Component {
             firstDisplay: true,
             listHeight: 0,
             footerY: 0,
-            listViewMaxHeight: listViewMaxHeight,
 
             dataSource: ds.cloneWithRows([]),
             text: '',
@@ -120,6 +119,7 @@ export default class GiftedMessenger extends Component {
         
         this._data = [];
         this._rowIds = [];
+        this.listViewMaxHeight = listViewMaxHeight;
     }
 
     getMessage(rowID) {
@@ -239,14 +239,14 @@ export default class GiftedMessenger extends Component {
 
     onKeyboardWillHide(e) {
         Animated.timing(this.state.height, {
-            toValue: this.state.listViewMaxHeight,
+            toValue: this.listViewMaxHeight,
             duration: 150
         }).start();
     }
 
     onKeyboardWillShow(e) {
         Animated.timing(this.state.height, {
-            toValue: this.state.listViewMaxHeight - (e.endCoordinates ? e.endCoordinates.height : e.end.height),
+            toValue: this.listViewMaxHeight - (e.endCoordinates ? e.endCoordinates.height : e.end.height),
             duration: 200
         }).start();
     }
