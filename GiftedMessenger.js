@@ -23,6 +23,7 @@ type MessageType = {
     position:?string;
     date:Date;
     view:?any;
+    isOld:boolean;
 }
 
 const styles = StyleSheet.create({
