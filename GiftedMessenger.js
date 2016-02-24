@@ -233,8 +233,6 @@ export default class GiftedMessenger extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this._data = [];
-        this._rowIds = [];
         this.appendMessages(nextProps.messages);
     }
 
