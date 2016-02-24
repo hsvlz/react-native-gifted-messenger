@@ -94,8 +94,6 @@ export default class GiftedMessenger extends Component {
         });
 
         this.state = {
-            _data: [],
-            _rowIds: [],
             firstDisplay: true,
             listHeight: 0,
             footerY: 0,
@@ -109,30 +107,33 @@ export default class GiftedMessenger extends Component {
             allLoaded: false,
             appearAnim: new Animated.Value(0)
         };
+        
+        this._data = [];
+        this._rowIds = [];
     }
 
     getMessage(rowID) {
-        if (typeof this.state._rowIds[this.state._rowIds.indexOf(rowID)] !== 'undefined') {
-            if (typeof this.state._data[this.state._rowIds[this.state._rowIds.indexOf(rowID)]] !== 'undefined') {
-                return this.state._data[this.state._rowIds[this.state._rowIds.indexOf(rowID)]];
+        if (typeof this._rowIds[this._rowIds.indexOf(rowID)] !== 'undefined') {
+            if (typeof this._data[this._rowIds[this._rowIds.indexOf(rowID)]] !== 'undefined') {
+                return this._data[this._rowIds[this._rowIds.indexOf(rowID)]];
             }
         }
         return null;
     }
 
     getPreviousMessage(rowID) {
-        if (typeof this.state._rowIds[this.state._rowIds.indexOf(rowID - 1)] !== 'undefined') {
-            if (typeof this.state._data[this.state._rowIds[this.state._rowIds.indexOf(rowID - 1)]] !== 'undefined') {
-                return this.state._data[this.state._rowIds[this.state._rowIds.indexOf(rowID - 1)]];
+        if (typeof this._rowIds[this._rowIds.indexOf(rowID - 1)] !== 'undefined') {
+            if (typeof this._data[this._rowIds[this._rowIds.indexOf(rowID - 1)]] !== 'undefined') {
+                return this._data[this._rowIds[this._rowIds.indexOf(rowID - 1)]];
             }
         }
         return null;
     }
 
     getNextMessage(rowID) {
-        if (typeof this.state._rowIds[this.state._rowIds.indexOf(rowID + 1)] !== 'undefined') {
-            if (typeof this.state._data[this.state._rowIds[this.state._rowIds.indexOf(rowID + 1)]] !== 'undefined') {
-                return this.state._data[this.state._rowIds[this.state._rowIds.indexOf(rowID + 1)]];
+        if (typeof this._rowIds[this._rowIds.indexOf(rowID + 1)] !== 'undefined') {
+            if (typeof this._data[this._rowIds[this._rowIds.indexOf(rowID + 1)]] !== 'undefined') {
+                return this._data[this._rowIds[this._rowIds.indexOf(rowID + 1)]];
             }
         }
         return null;
@@ -223,15 +224,9 @@ export default class GiftedMessenger extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState(
-            {
-                _data: [],
-                _rowIds: []
-            },
-            () => {
-                this.appendMessages(nextProps.messages);
-            }
-        );
+        this._data = [];
+        this._rowIds = [];
+        this.appendMessages(nextProps.messages);
     }
 
     onKeyboardWillHide(e) {
@@ -305,7 +300,7 @@ export default class GiftedMessenger extends Component {
         this.setState({
             isLoadingEarlierMessages: true
         });
-        this.props.onLoadEarlierMessages(this.state._data[this.state._rowIds[this.state._rowIds.length - 1]], this.postLoadEarlierMessages.bind(this));
+        this.props.onLoadEarlierMessages(this._data[this._rowIds[this._rowIds.length - 1]], this.postLoadEarlierMessages.bind(this));
     }
 
     renderLoadEarlierMessages() {
@@ -336,12 +331,12 @@ export default class GiftedMessenger extends Component {
     prependMessages(messages = []) {
         let rowID = null;
         for (let i = 0; i < messages.length; i++) {
-            this.state._data.push(messages[i]);
-            this.state._rowIds.unshift(this.state._data.length - 1);
-            rowID = this.state._data.length - 1;
+            this._data.push(messages[i]);
+            this._rowIds.unshift(this._data.length - 1);
+            rowID = this._data.length - 1;
         }
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.state._data, this.state._rowIds)
+            dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
         });
         return rowID;
     }
@@ -354,12 +349,12 @@ export default class GiftedMessenger extends Component {
         let rowID = null;
         for (let i = 0; i < messages.length; i++) {
             messages[i].isOld = true;
-            this.state._data.push(messages[i]);
-            this.state._rowIds.push(this.state._data.length - 1);
-            rowID = this.state._data.length - 1;
+            this._data.push(messages[i]);
+            this._rowIds.push(this._data.length - 1);
+            rowID = this._data.length - 1;
         }
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.state._data, this.state._rowIds)
+            dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
         });
         return rowID;
     }
@@ -377,24 +372,24 @@ export default class GiftedMessenger extends Component {
 
     refreshRows() {
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.state._data, this.state._rowIds)
+            dataSource: this.state.dataSource.cloneWithRows(this._data, this._rowIds)
         });
     }
 
     setMessageStatus(status = '', rowID) {
         if (status === 'ErrorButton') {
-            if (this.state._data[rowID].position === 'right') {
-                this.state._data[rowID].status = 'ErrorButton';
+            if (this._data[rowID].position === 'right') {
+                this._data[rowID].status = 'ErrorButton';
                 this.refreshRows();
             }
         } else {
-            if (this.state._data[rowID].position === 'right') {
-                this.state._data[rowID].status = status;
+            if (this._data[rowID].position === 'right') {
+                this._data[rowID].status = status;
 
                 // only 1 message can have a status
-                for (let i = 0; i < this.state._data.length; i++) {
-                    if (i !== rowID && this.state._data[i].status !== 'ErrorButton') {
-                        this.state._data[i].status = '';
+                for (let i = 0; i < this._data.length; i++) {
+                    if (i !== rowID && this._data[i].status !== 'ErrorButton') {
+                        this._data[i].status = '';
                     }
                 }
                 this.refreshRows();
