@@ -16,6 +16,15 @@ import Button from 'react-native-button';
 
 import Message from './Message';
 
+type MessageType = {
+    text:string;
+    name:string;
+    image:?Object;
+    position:?string;
+    date:Date;
+    view:?any;
+}
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -284,7 +293,7 @@ export default class GiftedMessenger extends Component {
         }
     }
 
-    postLoadEarlierMessages(messages = [], allLoaded = false) {
+    postLoadEarlierMessages(messages:Array<MessageType> = [], allLoaded = false) {
         this.prependMessages(messages);
         this.setState({
             isLoadingEarlierMessages: false
@@ -328,7 +337,7 @@ export default class GiftedMessenger extends Component {
         return null;
     }
 
-    prependMessages(messages = []) {
+    prependMessages(messages:Array<MessageType> = []) {
         let rowID = null;
         for (let i = 0; i < messages.length; i++) {
             this._data.push(messages[i]);
@@ -341,11 +350,11 @@ export default class GiftedMessenger extends Component {
         return rowID;
     }
 
-    prependMessage(message = {}) {
+    prependMessage(message:MessageType = {}) {
         return this.prependMessages([message]);
     }
 
-    appendMessages(messages = []) {
+    appendMessages(messages:Array<MessageType> = []) {
         let rowID = null;
         for (let i = 0; i < messages.length; i++) {
             messages[i].isOld = true;
@@ -359,7 +368,7 @@ export default class GiftedMessenger extends Component {
         return rowID;
     }
 
-    appendMessage(message = {}, scrollToBottom = true) {
+    appendMessage(message:MessageType = {}, scrollToBottom = true) {
         let rowID = this.appendMessages([message]);
         if (scrollToBottom === true) {
             setTimeout(() => {
