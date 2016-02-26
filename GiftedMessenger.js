@@ -248,7 +248,16 @@ export default class GiftedMessenger extends Component {
     }
 
     onKeyboardDidShow(e) {
+        if(Platform.OS == 'android') {
+            this.onKeyboardWillShow(e);
+        }
         this.scrollToBottom();
+    }
+
+    onKeyboardDidHide(e) {
+        if(Platform.OS == 'android') {
+            this.onKeyboardWillHide(e);
+        }
     }
 
     scrollToBottom() {
@@ -442,6 +451,7 @@ export default class GiftedMessenger extends Component {
                     onKeyboardWillShow={this.onKeyboardWillShow.bind(this)}
                     onKeyboardDidShow={this.onKeyboardDidShow.bind(this)}
                     onKeyboardWillHide={this.onKeyboardWillHide.bind(this)}
+                    onKeyboardDidHide={this.onKeyboardDidHide.bind(this)}
 
                     /*
                       keyboardShouldPersistTaps={false} // @issue keyboardShouldPersistTaps={false} + textInput focused = 2 taps are needed to trigger the ParsedText links
