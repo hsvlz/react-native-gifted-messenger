@@ -36,5 +36,5 @@ npm-debug.log
 android/
 ios/
 nohup.out
-
+.flowconfig
 
