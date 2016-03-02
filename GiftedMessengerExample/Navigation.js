@@ -4,7 +4,8 @@ var React = require('react-native');
 var {
   Text,
   Navigator,
-  Platform
+  Platform,
+  StyleSheet
 } = React;
 
 var Navigation = React.createClass({
@@ -30,21 +31,18 @@ var Navigation = React.createClass({
     var _self = this;    
     var routeMapper = {
       LeftButton(route, navigator, index, navState) {
-        return null;
+        return <Text>Back</Text>;
       },
       RightButton(route, navigator, index, navState) {
-        return null;
+        return <Text>Forward</Text>;
       },
       Title(route, navigator, index, navState) {
-        return null;
+        return <Text>My title</Text>;
       }
     };
     return (
       <Navigator.NavigationBar
-        style={{
-          backgroundColor: '#007aff',
-          alignItems: 'center',        
-        }}
+        style={styles.navStyle}
         routeMapper={routeMapper}
       />
     );
@@ -57,5 +55,11 @@ var Navigation = React.createClass({
   },
 });
 
+const styles = StyleSheet.create({
+    navStyle: {
+        backgroundColor: '#007aff',
+        alignItems: 'center',        
+    }
+});
 
 module.exports = Navigation;

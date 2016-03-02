@@ -12,24 +12,15 @@ var {
 
 var GiftedMessenger = require('react-native-gifted-messenger');
 var Communications = require('react-native-communications');
-
+var messages  = require('./messages');
 
 var GiftedMessengerExample = React.createClass({
   
   getMessages() {
-    return [
-      {text: 'Are you building a chat app?', name: 'React-Native', image: {uri: 'https://facebook.github.io/react/img/logo_og.png'}, position: 'left', date: new Date(2015, 10, 16, 19, 0)},
-      {
-        text: "Yes, and I use Gifted Messenger!", 
-        name: 'Developer', 
-        image: null, 
-        position: 'right', 
-        date: new Date(2015, 10, 17, 19, 0)
-        // If needed, you can add others data (eg: userId, messageId)
-      },
-    ];
+    return messages.latest;
   },
-  
+
+  // TODO: remove hard-coding which always shows error button!!  
   handleSend(message = {}, rowID = null) {
     // Your logic here
     // Send message.text to your server
@@ -47,21 +38,7 @@ var GiftedMessengerExample = React.createClass({
     // Eg: Retrieve old messages from your server
 
     // newest messages have to be at the begining of the array
-    var earlierMessages = [
-      {
-        text: 'This is a touchable phone number 0606060606 parsed by taskrabbit/react-native-parsed-text', 
-        name: 'Developer', 
-        image: null, 
-        position: 'right', 
-        date: new Date(2014, 0, 1, 20, 0),
-      }, {
-        text: 'React Native enables you to build world-class application experiences on native platforms using a consistent developer experience based on JavaScript and React. https://github.com/facebook/react-native', 
-        name: 'React-Native', 
-        image: {uri: 'https://facebook.github.io/react/img/logo_og.png'}, 
-        position: 'left', 
-        date: new Date(2013, 0, 1, 12, 0),
-      },
-    ];
+    var earlierMessages = messages.earlier;
     
     setTimeout(() => {
       callback(earlierMessages, false); // when second parameter is true, the "Load earlier messages" button will be hidden      
@@ -84,7 +61,12 @@ var GiftedMessengerExample = React.createClass({
         this._GiftedMessenger.setMessageStatus('Seen', rowID);
         setTimeout(() => {
           // append an answer
-          this.handleReceive({text: 'I saw your message', name: 'React-Native', image: {uri: 'https://facebook.github.io/react/img/logo_og.png'}, position: 'left', date: new Date()});
+          this.handleReceive({
+              text: 'I saw your message', 
+              name: 'React-Native', 
+              image: {uri: 'https://facebook.github.io/react/img/logo_og.png'}, 
+              position: 'left', 
+              date: new Date()});
         }, 500);
       }, 1000);
     }, 500);
@@ -104,7 +86,7 @@ var GiftedMessengerExample = React.createClass({
         styles={{
           bubbleRight: {
             marginLeft: 70,
-            backgroundColor: '#007aff',
+            backgroundColor: '#007aff', // styling of right bubble message
           },
         }}
         
