@@ -86,7 +86,7 @@ var GiftedMessengerExample = React.createClass({
         styles={{
           bubbleRight: {
             marginLeft: 70,
-            backgroundColor: '#007aff',
+            backgroundColor: '#007aff', // styling of right bubble message
           },
         }}
         
