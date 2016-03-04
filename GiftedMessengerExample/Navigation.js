@@ -12,7 +12,7 @@ var Navigation = React.createClass({
   render() {
     return (
       <Navigator
-        initialRoute={{index: 0, title: 'Gifted Messenger'}}
+        initialRoute={{id: 'conversations', title: 'Gifted Messenger'}}
         renderScene={this.renderScene}
         configureScene={(route) => {
           if (route.sceneConfig) {
@@ -49,9 +49,29 @@ var Navigation = React.createClass({
   },
   renderScene(route, navigator) {
     var GiftedMessengerExample = require('./GiftedMessengerExample');
-    return (
-      <GiftedMessengerExample />
-    );
+    var Conversations = require('./Conversations');
+    
+    console.log(route);
+    switch (route.id) {
+        case 'chat':
+            return (
+            <GiftedMessengerExample />
+            );
+            break;
+    
+        case 'conversations':
+            return (
+            <Conversations navigator={navigator} />
+            );
+            break;
+            
+        default:
+            return (
+            <Text>Error</Text>            
+            );
+            break;
+    }
+
   },
 });
 
